@@ -11,7 +11,6 @@ const port = 1919;
 
 // Debug middleware
 app.use((req, res, next) => {
-  console.log(`Request for: ${req.path}`);
   next();
 });
 
