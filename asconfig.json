@@ -1,0 +1,20 @@
+{
+  "targets": {
+    "release": {
+      "outFile": "dist/as_blur.wasm",
+      "textFile": "dist/as_blur.wat",
+      "optimizeLevel": 3,
+      "shrinkLevel": 0,
+      "converge": true,
+      "noAssert": false
+    }
+  },
+  "options": {
+    "enable": ["simd"],
+    "importMemory": false,
+    "initialMemory": 400,
+    "maximumMemory": 32768
+  },
+  "entries": ["src/assembly/index.ts"]
+}
+

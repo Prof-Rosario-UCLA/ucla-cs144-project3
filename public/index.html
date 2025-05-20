@@ -1,0 +1,50 @@
+<!-- public/index.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>JS Blur Demo</title>
+  <link rel="stylesheet" type="text/css" href="styles.css">
+</head>
+<body>
+  <h1>Image Blur using JavaScript, WebAssembly and Rust</h1>
+  <canvas id="canvas" width="512" height="512"></canvas>
+  <div class="experiment-container">
+	<!-- JavaScript Implementation -->
+        <div class="experiment-box js-box">
+            <h2>JavaScript</h2>
+            <div class="input-group">
+            </div>
+            <button id="jsBlurBtn">Blur Image</button>
+            <div class="result-area">
+                <div>Time: <span class="time-value" id="js-time">-</span></div>
+                <div class="loader" id="js-loader"></div>
+            </div>
+        </div>
+        <div class="experiment-box as-box">
+                  <h2>AssemblyScript / WASM</h2>
+                  <div class="input-group">
+                  </div>
+                  <button id="asBlurBtn" disabled>Blur Image</button>
+                  <div class="result-area">
+                      <div>Time: <span class="time-value" id="as-time">-</span></div>
+                      <div class="loader" id="as-loader"></div>
+                  </div>
+          </div>
+        <div class="experiment-box rs-box">
+                  <h2>Rust / WASM</h2>
+                  <div class="input-group">
+                  </div>
+                  <button id="rustBlurBtn" disabled>Blur Image</button>
+                  <div class="result-area">
+                      <div>Time: <span class="time-value" id="rs-time">-</span></div>
+                      <div class="loader" id="rs-loader"></div>
+                  </div>
+          </div>
+        </div>
+	</div>
+        <button id="resetBtn">Reset</button>
+  <script type="module" src="main.js"></script>
+</body>
+</html>
+

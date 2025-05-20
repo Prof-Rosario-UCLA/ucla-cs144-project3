@@ -1,0 +1,26 @@
+{
+  "name": "ucla-cs144-project3",
+  "version": "1.0.0",
+  "description": "",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build:as": "asc src/assembly/index.ts --target release --enable simd --exportRuntime --initialMemory 400 --maximumMemory 32768 -O3 --runtime stub",
+    "build:rs": "cd src/rust && wasm-pack build --target web --release && mv pkg/* ../../dist/",
+    "build": "npm run build:as && npm run build:rs",
+    "clean": "rm dist/*; rm -fr target; rm -fr src/rust/pkg",
+    "dist": "npm run clean; rm -fr node_modules *lock",
+    "start": "node app.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "dependencies": {
+    "assemblyscript": "^0.27.36",
+    "express": "^5.1.0",
+    "mime-types": "^3.0.1"
+  }
+}
