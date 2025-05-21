@@ -61,6 +61,16 @@ install_rust() {
         exit 1
     fi
     echo -e "${GREEN}wasm-bindgen-cli installed successfully.${NC}"
+
+    # Install wasm-pack
+    echo -e "${YELLOW}Installing wasm-pack...${NC}"
+    cargo install wasm-pack
+    if [ $? -ne 0 ]; then
+        echo -e "${RED}Failed to install wasm-pack. Exiting.${NC}"
+        exit 1
+    fi
+    echo -e "${GREEN}wasm-pack installed successfully.${NC}"
+
     echo -e "${GREEN}Process complete.${NC}"
 }
 
@@ -68,7 +78,16 @@ install_rust() {
 uninstall_rust() {
     echo -e "${GREEN}Starting uninstallation process for Debian/Ubuntu systems...${NC}"
 
-    # 1. Uninstall wasm-bindgen-cli
+    # 1. Uninstall Wasm-Pack
+    echo -e "${YELLOW}Uninstalling wasm-pack...${NC}"
+    cargo uninstall wasm-pack 
+    if [ $? -ne 0 ]; then
+         echo -e "${YELLOW}Warning: Failed to uninstall wasm-pack (it might not have been installed or cargo had issues).${NC}"
+    else
+         echo -e "${GREEN}wasm-pack uninstalled successfully.${NC}"
+    fi
+
+    # 2. Uninstall wasm-bindgen-cli
     if [ -f "$HOME/.cargo/env" ]; then
         echo -e "${YELLOW}Sourcing Rust environment to uninstall wasm-bindgen-cli...${NC}"
         source "$HOME/.cargo/env"
@@ -87,7 +106,7 @@ uninstall_rust() {
         echo -e "${YELLOW}Rust environment file (~/.cargo/env) not found. Skipping wasm-bindgen-cli uninstallation.${NC}"
     fi
 
-    # 2. Uninstall Rust and Rustup
+    # 3. Uninstall Rust and Rustup
     echo -e "${YELLOW}Uninstalling Rust (rustup)...${NC}"
     if command -v rustup &> /dev/null; then
         yes | rustup self uninstall
@@ -110,7 +129,7 @@ uninstall_rust() {
         rm -rf "$HOME/.rustup"
     fi
 
-    # 3. Uninstall build-essential for Debian/Ubuntu-based systems
+    # 4. Uninstall build-essential for Debian/Ubuntu-based systems
     echo -e "${YELLOW}Uninstalling build-essential (requires sudo)...${NC}"
     sudo apt remove -y build-essential
     if [ $? -ne 0 ]; then

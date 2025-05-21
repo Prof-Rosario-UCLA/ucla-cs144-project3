@@ -40,24 +40,25 @@ pub fn blur(ptr: *mut u8, width: i32, height: i32) {
     // Step 2: Create Gaussian kernel (exactly like JS)
     let size = (radius * 2 + 1) as usize;
     let mut kernel = vec![0.0f32; size * size];
-    let mut sum = 0.0;
     
     let two_sigma_sq = 2.0 * sigma * sigma;
-    let pi_sigma = f32::sqrt(2.0 * std::f32::consts::PI * sigma * sigma);
-    
+    let pi_sigma = 2.0 * std::f32::consts::PI * sigma * sigma
+
+    let mut sum = 0.0;
+
     for y in -radius..=radius {
         for x in -radius..=radius {
             let dist_sq = (x * x + y * y) as f32;
             let val = f32::exp(-dist_sq / two_sigma_sq) / pi_sigma;
-            let idx = ((y + radius) * (size as i32) + (x + radius)) as usize;
+            let idx = ((y + radius) * size + (x + radius)) as usize;
             kernel[idx] = val;
             sum += val;
         }
     }
     
     // Normalize kernel
-    for i in 0..kernel.len() {
-        kernel[i] /= sum;
+    for val in kernel.iter_mut() {
+        *val /= sum;
     }
     
     // Step 3: Apply blur to grayscale image
@@ -72,6 +73,7 @@ pub fn blur(ptr: *mut u8, width: i32, height: i32) {
             
             for dy in -radius..=radius {
                 // TODO: Implement the blurring logic while taking boundaries into account
+                // Hint: Take a look at clamp()
             }
             
             blurred[y * width + x] = val;
@@ -82,10 +84,10 @@ pub fn blur(ptr: *mut u8, width: i32, height: i32) {
     for y in 0..height {
         for x in 0..width {
             let i = (y * width + x) * 4;
-            let gray_val = blurred[y * width + x].round() as u8;
-            data[i] = gray_val;
-            data[i + 1] = gray_val;
-            data[i + 2] = gray_val;
+            let gray_val = blurred[y * width + x].round().clamp(0.0, 255.0) as u8;
+            data[i]     = gray_val;  // Red channel
+            data[i + 1] = gray_val;  // Green channel
+            data[i + 2] = gray_val;  // Blue channel
         }
     }
 }
