@@ -24,54 +24,55 @@ display_help() {
 # --- Installation Function ---
 install_rust() {
     echo -e "${GREEN}Starting Rust installation...${NC}"
+    echo -e "${YELLOW}This is going to take a while... go grab some coffee! ☕${NC}";
 
     # Install build-essential (includes gcc, g++, make, etc.)
     echo -e "${YELLOW}Installing build-essential for C linker...${NC}"
     sudo apt update
     sudo apt install -y build-essential
     if [ $? -ne 0 ]; then
-        echo -e "${RED}Failed to install build-essential. Exiting.${NC}"
+        echo -e "${RED}Failed to install build-essential. Exiting. ❌${NC}"
         exit 1
     fi
-    echo -e "${GREEN}Build-essential installed successfully.${NC}"
+    echo -e "${GREEN}Build-essential installed successfully. ✅${NC}"
 
     echo -e "${YELLOW}Starting Rust installation...${NC}"
     # Install Rust using the unattended flag
     curl https://sh.rustup.rs -sSf | sh -s -- -y
     if [ $? -ne 0 ]; then
-        echo -e "${RED}Rust installation failed. Exiting.${NC}"
+        echo -e "${RED}Rust installation failed. Exiting. ❌${NC}"
         exit 1
     fi
 
     # Source the cargo environment to make rustc and cargo available in the current script's shell
     echo -e "${YELLOW}Sourcing Rust environment...${NC}"
-    source "$HOME/.cargo/env" || { echo -e "${RED}Failed to source Rust environment. Check ~/.cargo/env exists. Exiting.${NC}"; exit 1; }
+    source "$HOME/.cargo/env" || { echo -e "${RED}Failed to source Rust environment. Check ~/.cargo/env exists. Exiting. ❌${NC}"; exit 1; }
 
     # Verify Rust and Cargo are in the PATH
     echo -e "${YELLOW}Verifying Rust and Cargo versions...${NC}"
-    rustc --version &> /dev/null || { echo -e "${RED}rustc not found or failed to execute after sourcing. Exiting.${NC}"; exit 1; }
-    cargo --version &> /dev/null || { echo -e "${RED}cargo not found or failed to execute after sourcing. Exiting.${NC}"; exit 1; }
-    echo -e "${GREEN}Rust and Cargo verified.${NC}"
+    rustc --version &> /dev/null || { echo -e "${RED}rustc not found or failed to execute after sourcing. Exiting. ❌${NC}"; exit 1; }
+    cargo --version &> /dev/null || { echo -e "${RED}cargo not found or failed to execute after sourcing. Exiting. ❌${NC}"; exit 1; }
+    echo -e "${GREEN}Rust and Cargo verified. ✅${NC}"
 
     # Install wasm-bindgen-cli
     echo -e "${YELLOW}Installing wasm-bindgen-cli...${NC}"
     cargo install -f wasm-bindgen-cli
     if [ $? -ne 0 ]; then
-        echo -e "${RED}Failed to install wasm-bindgen-cli. Exiting.${NC}"
+        echo -e "${RED}Failed to install wasm-bindgen-cli. Exiting. ❌${NC}"
         exit 1
     fi
-    echo -e "${GREEN}wasm-bindgen-cli installed successfully.${NC}"
+    echo -e "${GREEN}wasm-bindgen-cli installed successfully. ✅${NC}"
 
     # Install wasm-pack
     echo -e "${YELLOW}Installing wasm-pack...${NC}"
     cargo install wasm-pack
     if [ $? -ne 0 ]; then
-        echo -e "${RED}Failed to install wasm-pack. Exiting.${NC}"
+        echo -e "${RED}Failed to install wasm-pack. Exiting. ❌${NC}"
         exit 1
     fi
-    echo -e "${GREEN}wasm-pack installed successfully.${NC}"
+    echo -e "${GREEN}wasm-pack installed successfully. ✅${NC}"
 
-    echo -e "${GREEN}Process complete.${NC}"
+    echo -e "${GREEN}Process complete. ✅✅✅✅${NC}"
 }
 
 # --- Uninstallation Function ---
@@ -84,7 +85,7 @@ uninstall_rust() {
     if [ $? -ne 0 ]; then
          echo -e "${YELLOW}Warning: Failed to uninstall wasm-pack (it might not have been installed or cargo had issues).${NC}"
     else
-         echo -e "${GREEN}wasm-pack uninstalled successfully.${NC}"
+         echo -e "${GREEN}wasm-pack uninstalled successfully. ✅${NC}"
     fi
 
     # 2. Uninstall wasm-bindgen-cli
@@ -97,7 +98,7 @@ uninstall_rust() {
             if [ $? -ne 0 ]; then
                 echo -e "${YELLOW}Warning: Failed to uninstall wasm-bindgen-cli (it might not have been installed or cargo had issues).${NC}"
             else
-                echo -e "${GREEN}wasm-bindgen-cli uninstalled successfully.${NC}"
+                echo -e "${GREEN}wasm-bindgen-cli uninstalled successfully. ✅${NC}"
             fi
         else
             echo -e "${YELLOW}Warning: cargo command not found even after sourcing. Skipping wasm-bindgen-cli uninstallation.${NC}"
@@ -113,7 +114,7 @@ uninstall_rust() {
         if [ $? -ne 0 ]; then
             echo -e "${YELLOW}Warning: Failed to uninstall Rust (rustup). Manual intervention might be needed.${NC}"
         else
-            echo -e "${GREEN}Rust (rustup) uninstalled successfully.${NC}"
+            echo -e "${GREEN}Rust (rustup) uninstalled successfully. ✅${NC}"
         fi
     else
         echo -e "${YELLOW}Rustup not found. Rust may not have been installed or was already uninstalled.${NC}"
@@ -135,7 +136,7 @@ uninstall_rust() {
     if [ $? -ne 0 ]; then
         echo -e "${YELLOW}Warning: Failed to remove build-essential. Manual removal might be needed.${NC}"
     else
-        echo -e "${GREEN}Build-essential removed successfully.${NC}"
+        echo -e "${GREEN}Build-essential removed successfully. ✅${NC}"
     fi
     sudo apt autoremove -y
 
@@ -145,11 +146,11 @@ uninstall_rust() {
     sed -i '/\. "$HOME\/\.cargo\/env"/d' ~/.bashrc
     sed -i '/source "$HOME\/\.cargo\/env"/d' ~/.bashrc
     sed -i '/export PATH="$HOME\/\.cargo\/bin:$PATH"/d' ~/.bashrc
-    echo -e "${GREEN}Done. If this borks your shell, your previous shell init file is at ~/.bashrc.bak_$(date +%Y%m%d%H%M%S)${NC}"
+    echo -e "${GREEN}Done. If this borks your shell, your previous shell init file is at ~/.bashrc.bak_$(date +%Y%m%d%H%M%S)${NC} ✅"
 
-    echo -e "${GREEN}Uninstallation process finished. Please check the output for any warnings.${NC}"
-    echo -e "${YELLOW}We are sorry to see you go! And just remember, never touch *rust*y nails!${NC}"
-    echo -e "${GREEN}Process complete.${NC}"
+    echo -e "${GREEN}Uninstallation process finished. Please check the output for any warnings. ✅${NC}"
+    echo -e "${YELLOW}We are sorry to see you go! 👋 And just remember, never touch *rust*y nails! 🔩${NC}"
+    echo -e "${GREEN}Process complete. ✅✅✅✅${NC}"
 }
 
 # --- Main Logic ---
@@ -174,11 +175,11 @@ case "$1" in
                     uninstall_rust
                     ;;
                 n|N )
-                    echo -e "${GREEN}Aborting. Rust will remain installed.${NC}"
+                    echo -e "${GREEN}Aborting. Rust will remain installed. ✅${NC}"
                     exit 0
                     ;;
                 * )
-                    echo -e "${RED}Invalid choice. Aborting.${NC}"
+                    echo -e "${RED}Invalid choice. Aborting. 👋${NC}"
                     exit 1
                     ;;
             esac
@@ -189,11 +190,11 @@ case "$1" in
                     install_rust
                     ;;
                 n|N )
-                    echo -e "${GREEN}Aborting. Rust will not be installed.${NC}"
+                    echo -e "${GREEN}Aborting. Rust will not be installed. 👋${NC}"
                     exit 0
                     ;;
                 * )
-                    echo -e "${RED}Invalid choice. Aborting.${NC}"
+                    echo -e "${RED}Invalid choice. Aborting. 👋${NC}"
                     exit 1
                     ;;
             esac
