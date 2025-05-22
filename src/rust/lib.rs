@@ -42,7 +42,7 @@ pub fn blur(ptr: *mut u8, width: i32, height: i32) {
     let mut kernel = vec![0.0f32; size * size];
     
     let two_sigma_sq = 2.0 * sigma * sigma;
-    let pi_sigma = 2.0 * std::f32::consts::PI * sigma * sigma
+    let pi_sigma = 2.0 * std::f32::consts::PI * sigma * sigma;
 
     let mut sum = 0.0;
 
@@ -50,7 +50,7 @@ pub fn blur(ptr: *mut u8, width: i32, height: i32) {
         for x in -radius..=radius {
             let dist_sq = (x * x + y * y) as f32;
             let val = f32::exp(-dist_sq / two_sigma_sq) / pi_sigma;
-            let idx = ((y + radius) * size + (x + radius)) as usize;
+            let idx = ((y + radius) * size as i32 + (x + radius)) as usize;
             kernel[idx] = val;
             sum += val;
         }
